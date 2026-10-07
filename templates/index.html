@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ app_name }}</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        main {
+            width: min(980px, 94%);
+            background: white;
+            padding: 55px 45px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 42px;
+        }
+
+        .subtitle {
+            margin: 0 0 40px;
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .message {
+            margin-bottom: 28px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: #f0f7f4;
+            color: #245c48;
+        }
+
+        .auth-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .auth-card {
+            padding: 28px;
+            border: 1px solid #e2e2e2;
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .auth-card h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .auth-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #555;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #222;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .account-panel {
+            text-align: center;
+        }
+
+        .account-email {
+            margin: 10px 0 25px;
+            color: #555;
+        }
+
+        .provider-grid {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .provider-button {
+            display: block;
+            width: 240px;
+            padding: 24px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            background: white;
+            color: #222;
+            text-decoration: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .provider-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        .provider-status {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .logout {
+            display: inline-block;
+            margin-top: 30px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            text-decoration: underline;
+        }
+
+        .security-note {
+            margin-top: 28px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+
+            main {
+                padding: 40px 22px;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<main>
+
+    <h1>{{ app_name }}</h1>
+
+    <p class="subtitle">
+        AI-powered email organizer
+    </p>
+
+
+    {% if connection_message %}
+
+        <div class="message">
+            {{ connection_message }}
+        </div>
+
+    {% endif %}
+
+
+    {% if current_account %}
+
+        <div class="account-panel">
+
+            <h2>
+                Welcome to MailPilot
+            </h2>
+
+            <p class="account-email">
+                {{ current_account.email }}
+            </p>
+
+            <h3>
+                Connect your email provider
+            </h3>
+
+            <div class="provider-grid">
+
+                <a
+                    class="provider-button"
+                    href="/connect/gmail"
+                >
+                    Gmail
+
+                    {% if gmail_connected %}
+
+                        <span class="provider-status">
+                            Connected
+                        </span>
+
+                    {% else %}
+
+                        <span class="provider-status">
+                            Continue with Google
+                        </span>
+
+                    {% endif %}
+
+                </a>
+
+
+                <a
+                    class="provider-button"
+                    href="/connect/outlook"
+                >
+
+                    Outlook
+
+                    {% if outlook_connected %}
+
+                        <span class="provider-status">
+                            Connected
+                        </span>
+
+                    {% else %}
+
+                        <span class="provider-status">
+                            Continue with Microsoft
+                        </span>
+
+                    {% endif %}
+
+                </a>
+
+            </div>
+
+
+            <a
+                class="logout"
+                href="/logout"
+            >
+                Log out
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="auth-grid">
+
+
+            <section class="auth-card">
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Enter your MailPilot activation key to
+                    activate your account.
+                </p>
+
+
+                <form
+                    method="post"
+                    action="/register"
+                >
+
+                    <div class="form-group">
+
+                        <label for="register-email">
+                            Email
+                        </label>
+
+                        <input
+                            id="register-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="register-password">
+                            Password
+                        </label>
+
+                        <input
+                            id="register-password"
+                            name="password"
+                            type="password"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="activation-key">
+                            Activation Key
+                        </label>
+
+                        <input
+                            id="activation-key"
+                            name="activation_key"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="MP-XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button type="submit">
+                        Create Account
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <section class="auth-card">
+
+                <h2>
+                    Log in
+                </h2>
+
+                <p>
+                    Already have a MailPilot account?
+                    Log in to continue.
+                </p>
+
+
+                <form
+                    method="post"
+                    action="/login"
+                >
+
+                    <div class="form-group">
+
+                        <label for="login-email">
+                            Email
+                        </label>
+
+                        <input
+                            id="login-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="login-password">
+                            Password
+                        </label>
+
+                        <input
+                            id="login-password"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button type="submit">
+                        Log In
+                    </button>
+
+                </form>
+
+            </section>
+
+        </div>
+
+
+        <div class="security-note">
+            MailPilot access requires a valid activation key.
+            Your email provider is connected only after your
+            MailPilot account has been authenticated.
+        </div>
+
+
+    {% endif %}
+
+</main>
+
+</body>
+
+</html>

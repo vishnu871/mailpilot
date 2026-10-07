@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# OAuth / credentials
+*credentials*.json
+*client_secret*.json
+token.json
+tokens/
+secrets/
+*.pem
+*.key
+
+# Databases
+*.sqlite
+*.sqlite3
+*.db
+
+# MailPilot runtime data
+database/*.sqlite3
+database/*.db
+
+# Logs
+*.log
+logs/
+
+# Backups
+backup/
+backups/
+backup_worker/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test/cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Local Ollama / model data
+ollama/
+models/
