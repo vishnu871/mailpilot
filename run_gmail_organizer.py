@@ -34,6 +34,8 @@ def main() -> int:
     print()
     print("MODE: LIVE")
     print(f"BATCH SIZE: {BATCH_SIZE}")
+    print(f"MAXIMUM BATCHES: {10}")
+    print(f"MAXIMUM FETCHED MESSAGES: {BATCH_SIZE * 10}")
     print("DELETION: DISABLED")
     print()
     print("Connecting to Gmail...")
@@ -169,7 +171,7 @@ def main() -> int:
         processor.process_existing_paginated(
             dry_run=False,
             batch_size=BATCH_SIZE,
-            max_batches=None,
+            max_batches=10,
             progress_callback=progress_callback,
         )
 
